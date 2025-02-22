@@ -40,7 +40,7 @@ python -m venv venv
 Now activate the virtual environment with the following command.
 ```
 # windows machine
-venv\Scripts\activate.bat
+venv\Scripts\activate
 
 #mac/linux
 source venv/bin/activate
