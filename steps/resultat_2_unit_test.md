@@ -1,3 +1,8 @@
+## Steps/Commands
+>Note: Please 'cd' into the root directory and fire up your virtual environment!
+In this module, we will write some unit tests to test our previous contact us endpoint.
+
+1) Unit tests - Copy the following code into /core/tests.py
 from . models import Contact
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
@@ -91,3 +96,22 @@ class ContactTestCase(APITestCase):
         data["email"] = "test"
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+2) Run tests - Go ahead and run our new tests in  docker desktop api container exec page
+
+```
+python manage.py test
+```
+3) je n'ai pas exécuté le point 3 du module
+
+4) Check database - You can now use the Django shell to check the database for our new contact entry. Open Django shell with the following command in docker desktop exec api container
+```
+python manage.py shell
+```
+Now use the following command and check the database for our new entry
+```
+from core.models import Contact
+c = Contact.objects.last()
+c.title
+```
+>Note: on peut aussi remplacer c.title juste par c

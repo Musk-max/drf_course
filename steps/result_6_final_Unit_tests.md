@@ -1,81 +1,6 @@
-# Django Rest Framework (DRF) Course - Module 8
-This is my DRF course. I hope you like it.
-
-> These notes follow on from steps/module_7.md
-***
-***
-
-## Current root directory
-Your root directory should look like the following.
-```
-drf_course\  <--This is the root directory
-    backend\
-        core\
-            __pycache__\
-            migrations\
-                >__init__.py
-            >__init__.py
-            >admin.py
-            >apps.py
-            >models.py
-            >serializers.py
-            >tests.py
-            >views.py
-        docker\
-            ...
-        drf_course\
-            >__init__.py
-            >asgi.py
-            >settings.py
-            >urls.py
-            >wsgi.py
-        ecommerce\
-            __pycache__\
-            migrations\
-                >__init__.py
-            >__init__.py
-            >admin.py
-            >apps.py
-            >models.py
-            >serilizers.py
-            >signals.py
-            >tests.py
-            >views.py
-        utils\
-            >__init__.py
-            >model_abstracts.py 
-        >db.sqlite3
-        >manage.py
-        >requirements.txt
-    steps\
-        ...
-    venv\
-        include\
-        Lib\
-        Scripts\
-    >.env
-    >.gitignore
-    >docker-compose.yml
-    >env.template
-    >README.md
-    >server.py
-```
-If in doubt, run the following git commands:
-```
-git checkout module_8
-git pull origin module_8
-```
-
-
 ## Steps/Commands
 
 >Note: Please 'cd' into the root directory and fire up your virtual environment!
-
-In the last 2 module, we built an 'item' and 'order' end point for users to purchase items. It seems to work okay but let's double down on testing.
-In this module, we will write some unit tests to test our new endpoints.
-
-DRF comes with a built in APIClient.
-
 1) Unit tests - Copy the following code into /ecommerce/tests.py
 
 ```
@@ -202,134 +127,29 @@ class EcommerceTestCase(APITestCase):
             response = self.client.get(f'/order/{o.id}/')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 ```
-
-2) Run tests - You can run our new tests with the following command.
+2) Run tests - You can run our new tests with the following command in docker api container.
 ```
 python manage.py test
 ```
-
-With any luck, you should see the following in your terminal.
-```
-Found 18 test(s).
-Creating test database for alias 'default'...
-System check identified no issues (0 silenced).
-..................
-----------------------------------------------------------------------
-Ran 18 tests in 2.436s
-
-OK
-Destroying test database for alias 'default'...
-```
-
-Let's make some calls to our new endpoint.
-
-3) Call our endpoints - Here are the requests we can make to our new endpoints.
-
+3)  Call our endpoints - Here are the requests we can make to our new endpoints in our docker app container exec page.
 > This retrieves the auth token for bobby
-
-curl -X POST -F 'username=bobby' -F 'password=1234' http://api:8000/api-token-auth/
 
 http post http://api:8000/api-token-auth/ username=bobby password=1234
 
-
 > This will retrieve all items
-
-curl -X GET -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' http://api:8000/item/
 
 http http://api:8000/item/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285'
 
-
 > This will retreive a single item
 
-curl -X GET -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' http://api:8000/item/	e8961813-f537-4cde-90b5-c5330df515a0/
-
-http http://api:8000/item/	e8961813-f537-4cde-90b5-c5330df515a0/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' 
+http http://api:8000/item/e8961813-f537-4cde-90b5-c5330df515a0/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285'
 
 > This retrieve all orders
 
-curl -X GET -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' http://api:8000/order/
-
 http http://api:8000/order/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285'
 
-> This will place an order for item id = **your_item_uuid** quantity = 1
+> This will place some orders for item id = **your_item_uuid** quantity = 1
 
-curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' -d '{"item": "**your_item_uuid**", "quantity": "1"}' http://api:8000/order/
+http http://api:8000/order/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' item="e8961813-f537-4cde-90b5-c5330df515a0" quantity="1"
 
-http http://api:8000/order/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' item="**your_item_uuid**" quantity="1"
-
-
-> This get order id = **your_order_uuid**
-
-curl -X GET -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' http://api:8000/order/**your_order_uuid**/
-
-http http://api:8000/order/**your_order_uuid**/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285'
-
-> This will create a contact request
-
-curl -X POST -H "Content-type: application/json" -d '{"name": "Bobby Stearman", "message": "test", "email":"bobby@didcoding.com"}' 'http://api:8000/contact/'
-
-http http://api:8000/contact/ name="Bobby Stearman" message="test" email="bobby@didcoding.com"
-
-Congratulations!! You have a fully functioning and tested API!!
-
-***
-***
-
-## Root directory
->Note: If all went well, your root directory should now look like this
-```
-drf_course\  <--This is the root directory
-    backend\
-        core\
-            __pycache__\
-            migrations\
-                >__init__.py
-            >__init__.py
-            >admin.py
-            >apps.py
-            >models.py
-            >serializers.py
-            >tests.py
-            >views.py
-        docker\
-            ...
-        drf_course\
-            >__init__.py
-            >asgi.py
-            >settings.py
-            >urls.py
-            >wsgi.py
-        ecommerce\
-            __pycache__\
-            migrations\
-                >__init__.py
-            >__init__.py
-            >admin.py
-            >apps.py
-            >models.py
-            >serilizers.py
-            >signals.py
-            >tests.py
-            >views.py
-        utils\
-            >__init__.py
-            >model_abstracts.py 
-        >db.sqlite3
-        >manage.py
-        >requirements.txt
-    steps\
-        ...
-    venv\
-        include\
-        Lib\
-        Scripts\
-    >.env
-    >.gitignore
-    >docker-compose.yml
-    >env.template
-    >README.md
-    >server.py
-```
-
-***
-***
+http http://api:8000/order/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' item="e8961813-f537-4cde-90b5-c5330df515a0" quantity="5"
