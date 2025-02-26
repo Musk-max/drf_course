@@ -243,7 +243,7 @@ http http://api:8000/item/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92
 
 curl -X GET -H 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' http://api:8000/item/	e8961813-f537-4cde-90b5-c5330df515a0/
 
-http http://api:8000/item/	e8961813-f537-4cde-90b5-c5330df515a0/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' 
+http http://api:8000/item/e8961813-f537-4cde-90b5-c5330df515a0/ 'Authorization: Token 6801789df1027cb5e5af6d814aa2a92458c0a285' 
 
 > This retrieve all orders
 
